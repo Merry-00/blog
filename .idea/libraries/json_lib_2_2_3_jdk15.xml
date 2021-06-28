@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="json-lib-2.2.3-jdk15">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/json-lib-2.2.3-jdk15.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/json-lib-2.4-jdk15.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/jsp-api-2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/jstl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/junit-4.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/lombok-1.18.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/mail.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/mysql-connector-java-8.0.23.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/standard.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

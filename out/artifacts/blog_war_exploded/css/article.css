@@ -1,0 +1,148 @@
+body{
+    background-color: #a7c4bc;
+    margin:0 auto;
+}
+.container #title{
+    font-size:22px;
+    text-align: center;
+    font-weight:500;
+}
+.container{
+    width:90%;
+    margin:0 auto;
+    height:auto;
+    background-color: #fff;
+    border-bottom: 1px solid #f0f0f2;
+}
+.container .info{
+    width:90%;
+    margin:0 auto;
+}
+.container .content{
+    margin-left:100px;
+    width:80%;
+}
+.info .nav{
+    width:800px;
+    height:50px;
+    list-style: none;
+}
+.nav>li{
+    width:160px;
+    height:50px;
+    float:left;
+}
+.nav #nickName, .browse span{
+    font-size:12px;
+    color:#3c3c3c;
+}
+.nav a{
+    text-decoration: none;
+    cursor: pointer;
+}
+.nav .browse{
+    width:120px;
+    height:50px;
+}
+.browse img, .collect img{
+    width:24px;
+    height:24px;
+    max-width:32px;
+    max-height:32px;
+}
+.publishTime {
+    width:120px;
+    height:50px;
+}
+.publishTime span,.collect span{
+    font-size:12px;
+    color:#3c3c3c;
+}
+.nav .collect{
+    width:120px;
+    height:50px;
+}
+/*评论框的样式*/
+.com_container{
+    width:601px;
+    height:auto;
+    border-bottom:1px solid #ccc;
+    margin-top:30px;
+    margin-left:150px;
+}
+.com_container form{
+    margin-top:20px;
+}
+.button button{
+    margin-top:5px;
+    margin-left:400px;
+    background:#00a7a0;
+}
+.show{
+    width:500px;
+    height:400px;
+}
+.show h1{
+    font-size:22px;
+    font-weight: 400;
+}
+.show #showAll{
+    width:300px;
+    height:200px;
+}
+.black{
+    display: none;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index:1001;
+    -moz-opacity: 0.8;
+    opacity:.80;
+    filter: alpha(opacity=88);
+}
+.show .email{
+    width:100px;
+    height:30px;
+    background: #eee;
+    color:#337ab7;
+}
+.show .content{
+    width:500px;
+    color:#337ab7;
+    font-size:14px;
+}
+.show .reply{
+    text-decoration: none;
+    margin-left:40px;
+    color:#080;
+    font-size:14px;
+}
+.showComment, .closeDiv{
+    text-decoration: none;
+    margin-left:40px;
+    color:#080;
+    font-size:14px;
+}
+.more-comment{
+    display: none;
+    position: absolute;
+    top:1500px;
+    left:700px;
+    width:500px;
+    height:200px;
+    border: 1px solid orange;
+    background-color: red;
+    opacity: 0.5;
+    z-index:1002;
+    overflow: auto;
+}
+.more-comment a{
+    text-decoration: none;
+    color:#fff;
+}
+.reply:hover{
+    color:#f3442c;
+}
