@@ -3,10 +3,13 @@ package com.gcl.blog.service;
 import com.gcl.blog.dao.BlogDaoImp;
 import com.gcl.blog.dao.UserDaoImp;
 import com.gcl.blog.model.Blog;
+import com.gcl.blog.model.EchartsBean;
+import com.gcl.blog.model.PageBean;
 import com.gcl.blog.model.User;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.List;
 
 public class BlogServiceImp implements BlogService {
 
@@ -61,10 +64,10 @@ public class BlogServiceImp implements BlogService {
      * @return
      */
     @Override
-    public ArrayList<Blog> queryMyBlog(String email) {
-        ArrayList<Blog> blogs=new ArrayList<>();
-        if(blogDaoImp.selectByEmail(email)!=null){
-            blogs=blogDaoImp.selectByEmail(email);
+    public List<Blog> queryMyBlog(String email) {
+        List<Blog> blogs=null;
+        blogs=blogDaoImp.selectByEmail(email);
+        if(blogs!=null&&blogs.size()>0){
             return blogs;
         }
        return null;
@@ -142,5 +145,35 @@ public class BlogServiceImp implements BlogService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public ArrayList<EchartsBean> queryClassifyCount(String email) {
+        ArrayList<EchartsBean> echartsBeans=new ArrayList<>();
+        echartsBeans=blogDaoImp.selectClassify(email);
+        if(echartsBeans.size()>0&&echartsBeans!=null){
+            return echartsBeans;
+        }
+        return null;
+    }
+
+    /**
+     * 分页查询博客信息，参数为当前页和页面大小
+     * @param currentPage
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public PageBean<Blog> queryBlogByPage(int currentPage, int pageSize) {
+       List<Blog> blogs=blogDaoImp.queryBlogByPage(currentPage,pageSize);
+           PageBean<Blog> pageBean=new PageBean<>();
+           int total=blogDaoImp.getTotalRecords();
+            pageBean.setPageSize(pageSize);//设置页面大小
+            pageBean.setTotalRecords(total);//设置总记录数
+            pageBean.setCurrentPageNum(currentPage);//设置当前页
+            int totalPageNum= total%pageSize==0?total/pageSize:(total/pageSize)+1;
+            pageBean.setTotalPageNum(totalPageNum);//相除有除不尽的情况
+            pageBean.setList(blogs);//设置当前页数据
+            return pageBean;
     }
 }

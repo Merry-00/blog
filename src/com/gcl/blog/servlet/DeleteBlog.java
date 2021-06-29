@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet("/deleteBlog")
 public class DeleteBlog extends HttpServlet {
@@ -24,7 +25,7 @@ public class DeleteBlog extends HttpServlet {
        String blogId=req.getParameter("blogId");
         Blog blog=blogServiceImp.getBlogById(blogId);
         String email=blog.getAuthor_email();
-        ArrayList<Blog> blogs=blogServiceImp.queryMyBlog(email);
+        List<Blog> blogs=blogServiceImp.queryMyBlog(email);
         if(blogServiceImp.delete(blogId)){
             if(blogs==null ||blogs.size()==0){
                 String message="您还没有发布过文章！";

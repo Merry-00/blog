@@ -1,9 +1,9 @@
 body{
-    background-color: #a7c4bc;
     margin:0 auto;
+    background:url("../img/index.jpg");
 }
 .container{
-    width:90%;
+    width:80%;
     margin:0 auto;
     background-color: #fff;
     border-bottom: 1px solid #f0f0f2;
@@ -17,7 +17,6 @@ body{
     padding:24px;
     display: flex;
     border-bottom: 1px solid #5e8b7e;
-
 }
 .item .right{
     position:relative;

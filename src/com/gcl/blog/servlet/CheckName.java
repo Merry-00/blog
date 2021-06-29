@@ -25,8 +25,8 @@ public class CheckName extends HttpServlet {
         String nickName=req.getParameter("nickName");
         System.out.println("nickName"+nickName);
        boolean flag=userServiceImp.queryNickName(nickName);
-        PrintWriter out=resp.getWriter();
-        System.out.println("是否存在用户名的flag:"+flag);
+       PrintWriter out=resp.getWriter();
+       System.out.println("是否存在用户名的flag:"+flag);
        if(flag){
            out.write("用户名已经存在！请重新输入...");
        }

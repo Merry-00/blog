@@ -1,6 +1,8 @@
 <%@ page import="com.gcl.blog.model.Blog" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="com.gcl.blog.service.BlogServiceImp" %><%--
+<%@ page import="com.gcl.blog.service.BlogServiceImp" %>
+<%@ page import="com.gcl.blog.model.PageBean" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: 86166
   Date: 2021/6/10
@@ -10,6 +12,27 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%
+    BlogServiceImp blogService=new BlogServiceImp();
+    //取当前页
+    String currentPage = request.getParameter("currentPage");
+    //第一次访问，默认currentPage访问第一页
+    if (currentPage == null) {
+        currentPage = "1";
+    }
+    Integer currentPageNum = Integer.parseInt(currentPage);
+    //页面大小设置成固定值4
+    //分页查询所有
+    PageBean<Blog> pageBean = blogService.queryBlogByPage(currentPageNum, 4);
+    if(pageBean!=null){
+        //servlet重在业务逻辑，取值传参JSP侧重于页面显示
+        request.setAttribute("page", pageBean);
+    }
+    else{
+        String message="博客列表为空";
+        request.setAttribute("message",message);
+    }
+%>
 <html>
 <head>
     <link rel="stylesheet" href="./css/reset.css">
@@ -30,17 +53,6 @@
     </style>
 </head>
 <body>
-<%
-    BlogServiceImp blogServiceImp=new BlogServiceImp();
-    ArrayList<Blog> blogs=blogServiceImp.selectAllBlog(1);
-    if(blogs==null || blogs.size()==0){
-        String message="没有文章列表";
-        request.setAttribute("message",message);
-    }
-    else if(blogs.size()>0){
-        request.setAttribute("blogs",blogs);
-    }
-%>
 <!-- 导航栏 -->
 <nav id="mynav"class="navbar navbar-default">
     <div class="container-fluid">
@@ -79,8 +91,8 @@
 
 <div class="container">
     <h1 style="text-align: center;font-size:22px;font-weight:500;">博客列表</h1>
-    <c:if test="${requestScope.blogs!=null||requestScope.blogs.size() gt 0}">
-        <c:forEach var="b" items="${requestScope.blogs}">
+    <c:if test="${requestScope.page.list!=null||requestScope.page.list.size() gt 0}">
+        <c:forEach var="b" items="${requestScope.page.list}">
 
             <div class="item">
                 <div class="content">
@@ -126,11 +138,24 @@
 
                 </div>
             </div>
-
         </c:forEach>
-
+        <div class="page" style="text-align: center">
+            <table>
+                <tr>
+                    <td colspan="7">
+                        <input type="button" value="首页" onclick="toFirst()">
+                        <input type="button" value="上一页" onclick="toPrev()">
+                        当前页 ${requestScope.page.currentPageNum}| ${requestScope.page.totalPageNum} 总页数
+                        <input type="button" value="下一页" onclick="toNext()">
+                        <input type="button" value="末页" onclick="toLast()">
+                    </td>
+                </tr>
+            </table>
+        </div>
     </c:if>
-    <c:if test="${requestScope.blogs==null||requestScope.blogs.size() == 0}">
+
+
+    <c:if test="${requestScope.page.list==null||requestScope.page.list.size() == 0}">
         <div>
             <span>
                     ${requestScope.messege}
@@ -145,6 +170,39 @@
 <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只-加载单个插件。 -->
 <script src="boot/js/bootstrap.min.js"></script>
 <script>
+    var currentPage=${requestScope.page.currentPageNum};
+    var totalPage=${requestScope.page.totalPageNum};
+    function toFirst() {
+                    location.href="listPage?currentPage=1";
+                }
+    function toPrev() {
+                    //控制页面显示风格
+        var url="";
+            if(currentPage==1){
+                        url="listPage?currentPage=1";
+                    }
+            else{
+                        url="listPage?currentPage="+(currentPage-1);
+                    }
+            location.href=url;
+
+                }
+    function toNext() {
+                    //控制页面显示风格
+        var url="";
+            if(currentPage=totalPage){
+                        url="listPage?currentPage="+totalPage;
+                    }else{
+                        url="listPage?currentPage="+(currentPage+1);
+                    }
+                    location.href=url;
+
+                }
+    function toLast() {
+        console.log(${requestScope.page.totalPageNum});
+        location.href="listPage?currentPage="+${requestScope.page.totalPageNum};
+
+                }
     function toArticle(param) {
         console.log('param'+param);
         window.location.href="article.jsp?blogId="+param;

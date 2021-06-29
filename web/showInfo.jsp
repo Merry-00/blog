@@ -39,7 +39,7 @@
                 <div class="browse">被访问量</div>
             </div>
             <div class="b">
-                <div class=blogNum><a href="">${requestScope.blogs.count}</a></div>
+                <div class=blogNum><a href="">${requestScope.user.commentNum}</a></div>
                 <div class=blog>原创文章</div>
             </div>
             <div class="c">
@@ -76,7 +76,7 @@
     <div class="right">
         <div class="analyz">
             <h1>博客作品数据</h1>
-            <div class="data">数据展示页面</div>
+            <div class="data"><a href="javascript:void(0)" onclick="showData()">博客数据Echarts展示</a></div>
         </div>
     </div>
 </div>
@@ -86,7 +86,10 @@
 <script src="boot/js/bootstrap.min.js"></script>
 <script>
     function editInfo(){
-        window.location.href="http://localhost:8080/blog_war_exploded/info.jsp}";
+        window.location.href="http://localhost:8080/blog_war_exploded/info.jsp";
+    }
+    function showData(){
+        window.location.href="http://localhost:8080/blog_war_exploded/showData.jsp";
     }
 </script>
 </body>

@@ -1,4 +1,6 @@
 package com.gcl.blog.test;
+import com.gcl.blog.model.Photo;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,6 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.UUID;
 
 public class ImageServer {
     public static void main(String[] args) throws Exception {
@@ -73,11 +76,10 @@ class Handler extends Thread {
         try {
             is = s.getInputStream();
             BufferedReader in = new BufferedReader(new InputStreamReader(is));
-
-
             String filename = System.currentTimeMillis()+".jpg";
-
-            String filepath = "C:\\Users\\86166\\Desktop\\img\\";
+            System.out.println("检测系统的filename:"+filename);
+            String filepath="D:\\java code\\IdeaProjects\\blog\\images01";
+           // String filepath = "C:\\Users\\86166\\Desktop\\img\\";
 
             File dirFile = new File(filepath);
             if (!dirFile.exists()) {
@@ -86,7 +88,11 @@ class Handler extends Thread {
 
             System.out.println("read line " + id + " :" + filename);
             File file = new File(filepath+filename);
+            //获取图片信息并保存到数据库。
+            String id= UUID.randomUUID().toString();
+            double size=file.length();
 
+            Photo photo=new Photo();
             int len = 0;
             int BUFSIZE = 1*1024;
 
@@ -97,15 +103,9 @@ class Handler extends Thread {
                 fos.write(bytes, 0, len);
                 fos.flush();
             }
-
             System.out.println("done.");
 
-
-
-
             FileInputStream fs= new FileInputStream(filepath+filename);
-
-
 
         } catch (Exception e) {
             e.printStackTrace();

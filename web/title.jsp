@@ -22,6 +22,7 @@
 
 
                     <div class="item">
+
                         <div class="content">
                             <div class="con">
                                 <a class="blog" href='article.jsp?blogId=&quot;${b.id}&quot;'>
@@ -47,27 +48,65 @@
                                         <li>
                                             <p class="browse" id="browse" name="browse"> <span>${b.browse}</span> 浏览</p>
                                         </li>
+                                        <c:if test="${b.is_ok} eq 0">
+                                            <li>
+                                                <p class="browse" name="browse">待审核</p>
+                                            </li>
+                                        </c:if>
+
+                                        <c:if test="${b.is_ok} eq 1">
+                                            <li>
+                                                <p class="browse" name="browse">审核通过</p>
+                                            </li>
+                                        </c:if>
+
+                                        <c:if test="${b.is_ok} eq 1">
+                                            <li>
+                                                <p class="browse" name="browse">审核不通过</p>
+                                            </li>
+                                        </c:if>
+
+
                                     </ul>
                                 </div>
                             </div>
                         </div>
+
                         <div class="right">
                             <c:if test="${b.author_email eq sessionScope.user.email}">
                                 <div class="update">
                                     <a href="javascript:void(0);" onclick="editBlog('${b.id}')">编辑</a>
                                     <a href="javascript:void(0);" onclick="deleteBlog('${b.id}')">删除</a>
+
+                                    <c:if test="${b.is_ok} eq 0">
+                                        <a href="javascript:void(0)" >待审核</a>
+                                    </c:if>
+
+                                    <c:if test="${b.is_ok} eq 1">
+                                        <a href="javascript:void(0)" >审核通过</a>
+                                    </c:if>
+
+
+                                    <c:if test="${b.is_ok} eq 2">
+                                        <a href="javascript:void(0)" >审核不通过</a>
+                                    </c:if>
+
+
+
                                 </div>
                             </c:if>
-
-                            <div class="image">
-                                <a href=""><img src="./img/8517807.jpg" alt=""></a>
-                            </div>
-
                         </div>
+
+
                     </div>
+
+
 
             </c:forEach>
     </c:if>
+
+
+
     <c:if test="${requestScope.blogs==null||requestScope.blogs.size() == 0}">
         <div>
             <span>
@@ -88,7 +127,7 @@
     }
     function deleteBlog(id){
         console.log(id);
-        window.location.href="/blog_war_exploded/deleteBlog?blogId="+id;
+        window.location.href="deleteBlog?blogId="+id;
     }
 </script>
 </body>

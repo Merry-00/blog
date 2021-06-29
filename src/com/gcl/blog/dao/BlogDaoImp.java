@@ -1,6 +1,7 @@
 package com.gcl.blog.dao;
 
 import com.gcl.blog.model.Blog;
+import com.gcl.blog.model.EchartsBean;
 import com.gcl.blog.model.User;
 import com.gcl.blog.utils.DBUtil;
 import com.gcl.blog.utils.DateUtil;
@@ -11,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class BlogDaoImp implements BlogDao{
 
@@ -178,7 +180,6 @@ public class BlogDaoImp implements BlogDao{
         Connection connection=null;
         PreparedStatement preparedStatement=null;
         ResultSet resultSet=null;
-        Blog blog = null;
         String sql = "select * from article where author_email=?";
         ArrayList<Blog> blogs=new ArrayList<>();
         try{
@@ -200,7 +201,7 @@ public class BlogDaoImp implements BlogDao{
                 int browse=resultSet.getInt(11);
                 int isOk=resultSet.getInt(12);
                 String partContent=resultSet.getString(13);
-                blog=new Blog(id,title,content,email1,publishTime,label,classify,comment,like,collect,browse,isOk,partContent);
+                Blog blog=new Blog(id,title,content,email1,publishTime,label,classify,comment,like,collect,browse,isOk,partContent);
                 blogs.add(blog);
             }
             return blogs;
@@ -401,6 +402,40 @@ public class BlogDaoImp implements BlogDao{
     }
 
     /**
+     * 在Echarts中实现分类博客功能
+     * @param email
+     * @return
+     */
+    @Override
+    public ArrayList<EchartsBean> selectClassify(String email) {
+        Connection connection=null;
+        PreparedStatement preparedStatement=null;
+        ResultSet resultSet=null;
+        ArrayList<EchartsBean> echartsBeans=new ArrayList<>();
+        String sql="SELECT classify,count(id) as count FROM `article` where author_email=? GROUP BY classify";
+        try{
+            connection=DBUtil.getConnection();
+            preparedStatement=connection.prepareStatement(sql);
+            preparedStatement.setString(1,email);
+            resultSet=preparedStatement.executeQuery();
+            while(resultSet.next()){
+                EchartsBean echartsBean=new EchartsBean();
+                String classify=resultSet.getString(1);
+                int count=resultSet.getInt(2);
+                echartsBean.setName(classify);
+                echartsBean.setValue(count);
+                echartsBeans.add(echartsBean);
+            }
+            return echartsBeans;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            DBUtil.closeAll(connection,preparedStatement,resultSet);
+        }
+        return null;
+    }
+
+    /**
      * 分类查询博客审核状态
      * @return
      */
@@ -460,6 +495,79 @@ public class BlogDaoImp implements BlogDao{
             DBUtil.closeAll(connection,preparedStatement,null);
         }
         return 0;
+    }
+
+    /**
+     * 分页---查询总记录数
+     * @return
+     */
+    @Override
+    public int getTotalRecords() {
+        Connection connection=null;
+        PreparedStatement preparedStatement=null;
+        ResultSet resultSet=null;
+        String sql = "select count(*) from article where is_ok=1";
+        try{
+            connection = DBUtil.getConnection();
+            preparedStatement=connection.prepareStatement(sql);
+            resultSet=preparedStatement.executeQuery();
+            if(resultSet.next()){
+                int count=resultSet.getInt(1);
+                return count;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            DBUtil.closeAll(connection,preparedStatement,resultSet);
+        }
+        return 0;
+    }
+
+    /**
+     * 分页查询学生信息 参数为当前页和页面大小
+     * @param currentPage
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public List<Blog> queryBlogByPage(int currentPage, int pageSize) {
+        Connection connection=null;
+        PreparedStatement preparedStatement=null;
+        ResultSet resultSet=null;
+        String sql="select * from article where is_ok = 1 limit ?,?";
+
+        List<Blog> blogs=new ArrayList<>();
+        try{
+            connection=DBUtil.getConnection();
+            preparedStatement=connection.prepareStatement(sql);
+            preparedStatement.setInt(1,(currentPage-1)*pageSize);
+            preparedStatement.setInt(2,pageSize);
+            resultSet=preparedStatement.executeQuery();
+            while(resultSet.next()){
+                Blog blog=new Blog();
+                String id=resultSet.getString(1);
+                String title=resultSet.getString(2);
+                String content=resultSet.getString(3);
+                String email1=resultSet.getString(4);
+                Date publishTime= DateUtil.strToUtilDate(resultSet.getString(5));
+                String label=resultSet.getString(6);
+                String classify=resultSet.getString(7);
+                int comment=resultSet.getInt(8);
+                int like=resultSet.getInt(9);
+                int collect=resultSet.getInt(10);
+                int browse=resultSet.getInt(11);
+                int isOk=resultSet.getInt(12);
+                String partContent=resultSet.getString(13);
+                blog=new Blog(id,title,content,email1,publishTime,label,classify,comment,like,collect,browse,isOk,partContent);
+                blogs.add(blog);
+            }
+            return blogs;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            DBUtil.closeAll(connection,preparedStatement,resultSet);
+        }
+        return null;
     }
     //将评论数插入到数据库中
 

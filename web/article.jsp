@@ -169,13 +169,12 @@
                 if(result!="还没有人评论"){
                     var data=JSON.parse(result);
                     console.log(data);
-                    console.log("获取到了吗");
                     var body=document.getElementById("tbody");
                     showComment(data,body);
-
                 }
                 else{
-                    console.log("怎么会这样呢")
+                    console.log("怎么会这样" +
+                        "呢")
                 }
             }
         );
@@ -213,29 +212,10 @@
             ele_show.setAttribute("onclick",'showMore('+JSON.stringify(data[i])+')');var text_show=document.createTextNode("查看更多评论");
             ele_show.appendChild(text_show);
             td_content.appendChild(ele_show);
-            // //创建关闭窗口的a标签
-            // var ele_close=document.createElement("a");
-            // ele_close.setAttribute("class","closeDiv");
-            // ele_close.setAttribute("href","javascript:void(0)");
-            // ele_close.setAttribute("onclick",'closeDiv("'+data[i]+'")');
-            // var ele_textShow=document.createTextNode("关闭窗口");
-            // ele_close.appendChild(ele_textShow);
-            // //两个div
-            // var ele_white=document.createElement("div")
-            // ele_white.setAttribute("class","white");
-            // ele_white.setAttribute("id","light");
-            // //阴影的div
-            // var ele_black=document.createElement("div");
-            // ele_black.setAttribute("class","black");
-            // ele_black.setAttribute("id","fade");
-            // // //将关闭的a标签添加到white div中
-            // ele_white.appendChild(ele_close);
-            //4.创建tr,将td添加到tr中
             var tr=document.createElement("tr");
             tr.appendChild(td_name);
             tr.appendChild(td_content);//是
             body.appendChild(tr);
-
         }
     }
     //点击查看更多评论弹出显示框

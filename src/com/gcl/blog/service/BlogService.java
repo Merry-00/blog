@@ -1,8 +1,11 @@
 package com.gcl.blog.service;
 
 import com.gcl.blog.model.Blog;
+import com.gcl.blog.model.EchartsBean;
+import com.gcl.blog.model.PageBean;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface BlogService {
     //博客中心
@@ -13,7 +16,8 @@ public interface BlogService {
     //4.删除博客功能
     boolean delete(String id);
     Blog getBlogById(String blogId);
-    ArrayList<Blog> queryMyBlog(String email);
+    //根据email查询所有的博客
+    List<Blog> queryMyBlog(String email);
     //修改博客
     boolean updateBlog(Blog blog);
     //修改博客浏览数
@@ -28,6 +32,11 @@ public interface BlogService {
     ArrayList<Blog> queryClassifyBlog(String email);
     //审核博客状态
     boolean verifyBlog(String id,int operate);
+    //根据echarts分类博客
+    ArrayList<EchartsBean> queryClassifyCount(String email);
+    //分页查询博客信息，参数为当前页和页面大小
+
+    PageBean<Blog> queryBlogByPage(int currentPage,int pageSize);
     //6.博客按要求查找
     //7.个人博客分类显示
 }

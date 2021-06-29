@@ -28,7 +28,7 @@ public class SelectComment extends HttpServlet {
             protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
                 String articleId=req.getParameter("articleId");
                 String parentId=req.getParameter("parentId");
-                System.out.println("执行到这了吗");
+                //System.out.println("执行到这了吗");
                 List<Comment> comments=new ArrayList<>();
                 comments=commentServiceImp.list(articleId);
                 if(comments!=null&&comments.size()>0) {
